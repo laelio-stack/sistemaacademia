@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏋️ Sistema de Controle de Treinos de Academia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="navbar-content">
+                <h1 class="logo">🏋️ Academia Control</h1>
+                <div class="navbar-info">
+                    <span id="alunoSelecionado" class="aluno-info">Nenhum aluno selecionado</span>
+                    <button class="btn btn-outline" id="btnLimpar">Limpar Dados</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="menu">
+                    <button class="menu-btn active" data-section="dashboard">
+                        📊 Dashboard
+                    </button>
+                    <button class="menu-btn" data-section="alunos">
+                        👥 Alunos
+                    </button>
+                    <button class="menu-btn" data-section="treinos">
+                        💪 Treinos
+                    </button>
+                    <button class="menu-btn" data-section="evolucao">
+                        📈 Evolução
+                    </button>
+                    <button class="menu-btn" data-section="relatorios">
+                        📋 Relatórios
+                    </button>
+                </div>
+            </aside>
+
+            <!-- CONTENT AREA -->
+            <div class="content">
+                <!-- DASHBOARD -->
+                <section id="dashboard" class="section active">
+                    <h2>📊 Dashboard</h2>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total de Alunos</p>
+                                <p class="stat-value" id="totalAlunos">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">💪</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total de Treinos</p>
+                                <p class="stat-value" id="totalTreinos">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">🏋️</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Total de Exercícios</p>
+                                <p class="stat-value" id="totalExercicios">0</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">📅</div>
+                            <div class="stat-info">
+                                <p class="stat-label">Última Atualização</p>
+                                <p class="stat-value" id="ultimaAtualizacao">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <h3>📍 Alunos Ativos</h3>
+                            <div id="alunosAtivos" class="alunos-list">
+                                <p class="empty-state">Nenhum aluno cadastrado</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>📅 Últimos Treinos</h3>
+                            <div id="ultimosTreinos" class="treinos-list">
+                                <p class="empty-state">Nenhum treino registrado</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ALUNOS -->
+                <section id="alunos" class="section">
+                    <h2>👥 Gerenciar Alunos</h2>
+                    
+                    <div class="card">
+                        <h3>Novo Aluno</h3>
+                        <form id="formNovoAluno" class="form">
+                            <div class="form-group">
+                                <label for="nomeAluno">Nome do Aluno</label>
+                                <input type="text" id="nomeAluno" placeholder="Digite o nome" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Cadastrar Aluno</button>
+                        </form>
+                    </div>
+
+                    <div class="card">
+                        <h3>Lista de Alunos</h3>
+                        <div class="form-group">
+                            <input type="text" id="buscarAluno" placeholder="Buscar por nome ou matrícula..." class="search-input">
+                        </div>
+                        <div id="listaAlunos" class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Matrícula</th>
+                                        <th>Inscrição</th>
+                                        <th>Treinos</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alunosTableBody">
+                                    <tr><td colspan="5" class="text-center">Nenhum aluno cadastrado</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TREINOS -->
+                <section id="treinos" class="section">
+                    <h2>💪 Registrar Treino</h2>
+
+                    <div class="card">
+                        <h3>Selecionar Aluno</h3>
+                        <div class="form-group">
+                            <select id="selecionarAluno" class="form-control">
+                                <option value="">-- Selecione um aluno --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card" id="formularioTreinoContainer" style="display: none;">
+                        <h3>Novo Treino</h3>
+                        <form id="formNovoTreino" class="form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="tipoTreino">Tipo de Treino</label>
+                                    <input type="text" id="tipoTreino" placeholder="A, B, C, D..." maxlength="1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dataTreino">Data</label>
+                                    <input type="datetime-local" id="dataTreino" required>
+                                </div>
+                            </div>
+
+                            <h4>Adicionar Exercícios</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="nomeExercicio">Exercício</label>
+                                    <input type="text" id="nomeExercicio" placeholder="Ex: Supino Reto">
+                                </div>
+                                <div class="form-group">
+                                    <label for="pesoExercicio">Peso (kg)</label>
+                                    <input type="number" id="pesoExercicio" placeholder="80" min="0" step="0.5">
+                                </div>
+                                <div class="form-group">
+                                    <label for="seriesExercicio">Séries</label>
+                                    <input type="number" id="seriesExercicio" placeholder="4" min="1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="repeticoes">Repetições</label>
+                                    <input type="number" id="repeticoes" placeholder="8" min="0">
+                                </div>
+                                <button type="button" id="btnAdicionarExercicio" class="btn btn-secondary">➕ Adicionar</button>
+                            </div>
+
+                            <h4>Exercícios do Treino</h4>
+                            <div id="exerciciosList" class="exercicios-list">
+                                <p class="empty-state">Nenhum exercício adicionado</p>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary btn-large">💾 Salvar Treino</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- EVOLUÇÃO -->
+                <section id="evolucao" class="section">
+                    <h2>📈 Acompanhar Evolução</h2>
+
+                    <div class="card">
+                        <h3>Selecionar Aluno e Exercício</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="alunoEvolucao">Aluno</label>
+                                <select id="alunoEvolucao" class="form-control">
+                                    <option value="">-- Selecione um aluno --</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exercicioEvolucao">Exercício</label>
+                                <select id="exercicioEvolucao" class="form-control">
+                                    <option value="">-- Selecione um exercício --</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="evolucaoContainer" style="display: none;">
+                        <div class="card">
+                            <h3>Histórico do Exercício</h3>
+                            <div class="historico-grid">
+                                <div id="historicoDados" class="historico-list"></div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Análise de Evolução</h3>
+                            <div id="evolucaoAnalise" class="evolucao-stats"></div>
+                        </div>
+
+                        <div class="card">
+                            <h3>Gráfico de Progresso</h3>
+                            <canvas id="graficoProgresso"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- RELATÓRIOS -->
+                <section id="relatorios" class="section">
+                    <h2>📋 Relatórios</h2>
+
+                    <div class="card">
+                        <h3>Selecionar Aluno</h3>
+                        <div class="form-group">
+                            <select id="alunoRelatorio" class="form-control">
+                                <option value="">-- Selecione um aluno --</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="relatorioContainer" style="display: none;">
+                        <div class="card relatorio-card">
+                            <div class="relatorio-header">
+                                <h3 id="relatorioNome"></h3>
+                                <p id="relatorioMatricula" class="text-muted"></p>
+                            </div>
+
+                            <div class="relatorio-section">
+                                <h4>Resumo de Treinos</h4>
+                                <div class="relatorio-grid">
+                                    <div class="relatorio-item">
+                                        <span class="label">Total de Treinos</span>
+                                        <span class="value" id="relTotalTreinos">0</span>
+                                    </div>
+                                    <div class="relatorio-item">
+                                        <span class="label">Total de Exercícios</span>
+                                        <span class="value" id="relTotalExercicios">0</span>
+                                    </div>
+                                    <div class="relatorio-item">
+                                        <span class="label">Tipos de Treino</span>
+                                        <span class="value" id="relTiposTreino">-</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="relatorio-section">
+                                <h4>Distribuição por Tipo</h4>
+                                <div id="distribuicaoTipo" class="distribuicao-list"></div>
+                            </div>
+
+                            <div class="relatorio-section">
+                                <h4>Cargas Máximas por Exercício</h4>
+                                <div id="cargasMaximas" class="cargas-list"></div>
+                            </div>
+
+                            <button class="btn btn-primary" id="btnExportarPDF" style="margin-top: 20px;">
+                                📥 Exportar Relatório
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="btnModalFechar">Fechar</button>
+                <button class="btn btn-primary" id="btnModalConfirmar" style="display: none;">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
