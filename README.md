@@ -1,10 +1,10 @@
-# 🏋️ Sistema de Controle de Treinos - Versão Web
+# Sistema de Controle de Treinos - Versão Web
 
 Versão web profissional do Sistema de Controle de Treinos de Academia, desenvolvida com HTML, CSS e JavaScript puro.
 
-## ✨ Características
+## Características
 
-### ✅ Funcionalidades Completas
+### Funcionalidades Completas
 - **Gerenciar Alunos**: Cadastro, busca, listagem e deleção
 - **Registrar Treinos**: Tipos A/B/C/etc com múltiplos exercícios
 - **Acompanhar Evolução**: Histórico, gráficos e análise automática
